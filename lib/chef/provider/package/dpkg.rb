@@ -52,7 +52,6 @@ class Chef
           @source_exists = true
           @current_resource = Chef::Resource::Package.new(@new_resource.name)
           @current_resource.package_name(@new_resource.package_name)
-          @new_resource.version(nil)
 
           if @new_resource.source
             @source_exists = ::File.exists?(@new_resource.source)
@@ -63,7 +62,6 @@ class Chef
               pkginfo = status.stdout.split("\t")
               unless pkginfo.empty?
                 @current_resource.package_name(pkginfo[0])
-                @new_resource.version(pkginfo[1].strip)
                 @candidate_version = pkginfo[1].strip
               end
             else

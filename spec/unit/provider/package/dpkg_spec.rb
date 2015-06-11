@@ -54,7 +54,6 @@ describe Chef::Provider::Package::Dpkg do
         allow(@provider).to receive(:shell_out).with("dpkg-deb -W #{@new_resource.source}", timeout: 900).and_return(@status)
         @provider.load_current_resource
         expect(@provider.current_resource.package_name).to eq("wget")
-        expect(@new_resource.version).to eq(version)
         expect(@provider.candidate_version).to eq(version)
       end
 
@@ -88,7 +87,7 @@ describe Chef::Provider::Package::Dpkg do
       status = double(:stdout => stdout, :exitstatus => 1)
       allow(@provider).to receive(:shell_out).and_return(status)
       @provider.load_current_resource
-      expect(@provider.new_resource.version).to eq('1.2.3+3141592-1ubuntu1~lucid')
+      expect(@provider.candidate_version).to eq('1.2.3+3141592-1ubuntu1~lucid')
     end
 
     it "should raise an exception if the source is not set but we are installing" do
